@@ -11,11 +11,16 @@
             font-family: 'Roboto', sans-serif;
             margin: 0;
             display: flex;
-            flex-direction: column;
             height: 100vh;
             background-color: #1a1a2e;
             color: white;
             overflow: hidden;
+        }
+
+        .container {
+            display: flex;
+            width: 100%;
+            height: 100%;
         }
 
         .sidebar {
@@ -24,6 +29,9 @@
             padding: 30px 20px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
             flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
         }
 
         .sidebar h2 {
@@ -52,19 +60,28 @@
             color: #fff;
         }
 
-        .main-content {
+        .content-area {
+            display: flex;
+            flex-direction: column;
             flex-grow: 1;
             padding: 40px;
             background: #16213e;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
             overflow-y: auto;
+            align-items: flex-start;
+            justify-content: flex-start;
         }
 
-        .main-content h1 {
-            font-size: 40px;
-            margin-bottom: 30px;
+        .welcome-message {
+            background: #1a1a2e;
+            padding: 25px;
+            border-radius: 12px;
+            width: 100%;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.5);
+            margin-bottom: 20px;
+        }
+
+        .welcome-message h1 {
+            font-size: 36px;
             text-align: center;
             letter-spacing: 1px;
         }
@@ -73,14 +90,14 @@
             background: #1a1a2e;
             padding: 25px;
             border-radius: 12px;
-            width: 90%;
-            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.5);
-            margin-bottom: 30px;
+            width: 100%;
             max-width: 800px;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.5);
+            margin-bottom: 20px;
         }
 
         .content-section h2 {
-            font-size: 30px;
+            font-size: 28px;
             margin-bottom: 15px;
             color: #e94560;
         }
@@ -135,7 +152,6 @@
             font-size: 18px;
             transition: background 0.3s ease;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-            margin-right: 10px;
         }
 
         .content-section button:hover {
@@ -216,17 +232,19 @@
                 padding: 15px;
             }
 
-            .main-content {
+            .content-area {
                 padding: 20px;
+                align-items: center;
             }
 
             .content-section {
                 width: 100%;
+                max-width: 100%;
             }
         }
 
         @media (max-width: 480px) {
-            .main-content h1 {
+            .welcome-message h1 {
                 font-size: 28px;
             }
 
@@ -242,77 +260,79 @@
     </style>
 </head>
 <body>
-    <div class="sidebar">
-        <h2>Taskmatrix</h2>
-        <div class="nav-item">
-            <a href="#" onclick="showContent('main-welcome')">Main Welcome Page</a>
-        </div>
-        <div class="nav-item">
-            <a href="#" onclick="showContent('assignments')">Assignments</a>
-        </div>
-        <div class="nav-item">
-            <a href="#" onclick="showContent('class-reminder')">Class Reminder</a>
-        </div>
-    </div>
-
-    <div class="main-content">
-        <div id="welcomeMessage" class="welcome-message">
-            <h1>Welcome, User</h1>
-        </div>
-
-        <div id="main-welcome" class="content-section" style="display: none;">
-            <h2>Welcome to Taskmatrix</h2>
-            <p>Taskmatrix is your personal dashboard to manage all your school assignments and class notifications. With Taskmatrix, you can:</p>
-            <ul>
-                <li>Track and manage your assignments along with their due dates.</li>
-                <li>Keep detailed notes for each assignment to help you stay organized.</li>
-                <li>Set up and receive reminders for important class times and deadlines.</li>
-                <li>Organize all your academic activities in one centralized place.</li>
-            </ul>
-            <p>Start by exploring the assignments or class reminder section to begin managing your tasks more efficiently.</p>
-        </div>
-
-        <div id="assignments" class="content-section" style="display: none;">
-            <h2>Assignments</h2>
-            <label for="assignmentName">Assignment Name:</label>
-            <input type="text" id="assignmentName" placeholder="Enter assignment name">
-
-            <label for="assignmentNotes">Notes:</label>
-            <textarea id="assignmentNotes" rows="4" placeholder="Enter your notes"></textarea>
-
-            <label for="assignmentDueDate">Due Date:</label>
-            <input type="date" id="assignmentDueDate">
-
-            <label for="assignmentCreatedDate">Created Date:</label>
-            <input type="date" id="assignmentCreatedDate">
-
-            <button onclick="addAssignment()">Add Assignment</button>
-
-            <div class="assignment-list" id="assignmentList">
-                <!-- Dynamically generated assignments will appear here -->
+    <div class="container">
+        <div class="sidebar">
+            <h2>Taskmatrix</h2>
+            <div class="nav-item">
+                <a href="#" onclick="showContent('main-welcome')">Main Welcome Page</a>
+            </div>
+            <div class="nav-item">
+                <a href="#" onclick="showContent('assignments')">Assignments</a>
+            </div>
+            <div class="nav-item">
+                <a href="#" onclick="showContent('class-reminder')">Class Reminder</a>
             </div>
         </div>
 
-        <div id="class-reminder" class="content-section" style="display: none;">
-            <h2>Class Reminder</h2>
-            <label for="classPeriod">Class Period:</label>
-            <select id="classPeriod">
-                <option value="1">Period 1</option>
-                <option value="2">Period 2</option>
-                <option value="3">Period 3</option>
-                <option value="4">Period 4</option>
-                <option value="5">Period 5</option>
-                <option value="6">Period 6</option>
-                <option value="7">Period 7</option>
-            </select>
+        <div class="content-area">
+            <div id="welcomeMessage" class="welcome-message">
+                <h1>Welcome, User</h1>
+            </div>
 
-            <label for="className">Class Name:</label>
-            <input type="text" id="className" placeholder="Enter class name">
+            <div id="main-welcome" class="content-section" style="display: none;">
+                <h2>Welcome to Taskmatrix</h2>
+                <p>Taskmatrix is your personal dashboard to manage all your school assignments and class notifications. With Taskmatrix, you can:</p>
+                <ul>
+                    <li>Track and manage your assignments along with their due dates.</li>
+                    <li>Keep detailed notes for each assignment to help you stay organized.</li>
+                    <li>Set up and receive reminders for important class times and deadlines.</li>
+                    <li>Organize all your academic activities in one centralized place.</li>
+                </ul>
+                <p>Start by exploring the assignments or class reminder section to begin managing your tasks more efficiently.</p>
+            </div>
 
-            <label for="classTime">Class Time:</label>
-            <input type="time" id="classTime">
+            <div id="assignments" class="content-section" style="display: none;">
+                <h2>Assignments</h2>
+                <label for="assignmentName">Assignment Name:</label>
+                <input type="text" id="assignmentName" placeholder="Enter assignment name">
 
-            <button onclick="saveClassReminder()">Save Reminder</button>
+                <label for="assignmentNotes">Notes:</label>
+                <textarea id="assignmentNotes" rows="4" placeholder="Enter your notes"></textarea>
+
+                <label for="assignmentDueDate">Due Date:</label>
+                <input type="date" id="assignmentDueDate">
+
+                <label for="assignmentCreatedDate">Created Date:</label>
+                <input type="date" id="assignmentCreatedDate">
+
+                <button onclick="addAssignment()">Add Assignment</button>
+
+                <div class="assignment-list" id="assignmentList">
+                    <!-- Dynamically generated assignments will appear here -->
+                </div>
+            </div>
+
+            <div id="class-reminder" class="content-section" style="display: none;">
+                <h2>Class Reminder</h2>
+                <label for="classPeriod">Class Period:</label>
+                <select id="classPeriod">
+                    <option value="1">Period 1</option>
+                    <option value="2">Period 2</option>
+                    <option value="3">Period 3</option>
+                    <option value="4">Period 4</option>
+                    <option value="5">Period 5</option>
+                    <option value="6">Period 6</option>
+                    <option value="7">Period 7</option>
+                </select>
+
+                <label for="className">Class Name:</label>
+                <input type="text" id="className" placeholder="Enter class name">
+
+                <label for="classTime">Class Time:</label>
+                <input type="time" id="classTime">
+
+                <button onclick="saveClassReminder()">Save Reminder</button>
+            </div>
         </div>
     </div>
 
