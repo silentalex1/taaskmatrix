@@ -17,6 +17,7 @@
             height: 100vh;
             margin: 0;
             position: relative;
+            overflow: hidden;
         }
 
         .login-wrapper {
@@ -91,18 +92,20 @@
             cursor: pointer;
             font-size: 16px;
             transition: all 0.3s ease;
-            display: none;
             width: auto;
             min-width: 150px;
             max-width: 250px;
             text-align: center;
             box-shadow: 0 7px 20px rgba(0, 133, 81, 0.5);
+            opacity: 1;
+            pointer-events: auto;
         }
 
-        .dashboard-button:hover {
-            background: linear-gradient(45deg, #1cb5e0, #1c8de0);
-            transform: scale(1.05);
-            box-shadow: 0 10px 30px rgba(0, 133, 81, 0.7);
+        .dashboard-button.disabled {
+            background: gray;
+            opacity: 0.5;
+            pointer-events: none;
+            box-shadow: none;
         }
 
         .flip-link {
@@ -205,18 +208,27 @@
         }
 
         function getUserEmail() {
-            return 'grabem1@students.goshenschools.org';
+            // Example to simulate getting the user's email
+            return localStorage.getItem('userEmail'); 
         }
 
         function displayDashboardButton() {
             const email = getUserEmail();
-            if (checkAdminAccess(email)) {
-                document.getElementById('dashboardBtn').style.display = 'block';
+            const dashboardBtn = document.getElementById('dashboardBtn');
+
+            if (email && checkAdminAccess(email)) {
+                dashboardBtn.classList.remove('disabled');
+                dashboardBtn.style.display = 'block';
+            } else {
+                dashboardBtn.classList.add('disabled');
+                dashboardBtn.style.display = 'block';
             }
         }
 
         function redirectToDashboard() {
-            window.location.href = 'dashboard.html';
+            if (!document.getElementById('dashboardBtn').classList.contains('disabled')) {
+                window.location.href = 'dashboard.html';
+            }
         }
 
         function flipToSignup() {
@@ -230,7 +242,9 @@
             const username = event.target.username.value;
             const password = event.target.password.value;
 
+            // Simulate login
             if (username === 'someUser' && password === 'somePassword') {
+                localStorage.setItem('userEmail', 'someUserEmail@example.com');
                 window.location.href = 'dashboard.html';
             } else {
                 alert('Invalid username or password');
