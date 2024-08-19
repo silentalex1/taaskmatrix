@@ -11,6 +11,7 @@
             font-family: 'Roboto', sans-serif;
             margin: 0;
             display: flex;
+            flex-direction: column;
             height: 100vh;
             background-color: #1a1a2e;
             color: white;
@@ -20,10 +21,9 @@
         .sidebar {
             width: 280px;
             background: #0f3460;
-            display: flex;
-            flex-direction: column;
             padding: 30px 20px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            flex-shrink: 0;
         }
 
         .sidebar h2 {
@@ -111,7 +111,8 @@
         .content-section input[type="text"],
         .content-section textarea,
         .content-section select,
-        .content-section input[type="date"] {
+        .content-section input[type="date"],
+        .content-section input[type="time"] {
             width: 100%;
             padding: 12px;
             margin-bottom: 20px;
@@ -206,6 +207,38 @@
             background: #1a1a2e;
         }
 
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                flex-direction: row;
+                justify-content: space-around;
+                padding: 15px;
+            }
+
+            .main-content {
+                padding: 20px;
+            }
+
+            .content-section {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .main-content h1 {
+                font-size: 28px;
+            }
+
+            .sidebar h2 {
+                font-size: 20px;
+            }
+
+            .sidebar .nav-item a {
+                font-size: 16px;
+                padding: 8px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -218,7 +251,7 @@
             <a href="#" onclick="showContent('assignments')">Assignments</a>
         </div>
         <div class="nav-item">
-            <a href="#" onclick="showContent('class-notifications')">Class Notifications</a>
+            <a href="#" onclick="showContent('class-reminder')">Class Reminder</a>
         </div>
     </div>
 
@@ -236,7 +269,7 @@
                 <li>Set up and receive reminders for important class times and deadlines.</li>
                 <li>Organize all your academic activities in one centralized place.</li>
             </ul>
-            <p>Start by exploring the assignments or class notifications section to begin managing your tasks more efficiently.</p>
+            <p>Start by exploring the assignments or class reminder section to begin managing your tasks more efficiently.</p>
         </div>
 
         <div id="assignments" class="content-section" style="display: none;">
@@ -260,9 +293,26 @@
             </div>
         </div>
 
-        <div id="class-notifications" class="content-section" style="display: none;">
-            <h2>Class Notifications</h2>
-            <p>Set up class times and get notified when it's time to attend.</p>
+        <div id="class-reminder" class="content-section" style="display: none;">
+            <h2>Class Reminder</h2>
+            <label for="classPeriod">Class Period:</label>
+            <select id="classPeriod">
+                <option value="1">Period 1</option>
+                <option value="2">Period 2</option>
+                <option value="3">Period 3</option>
+                <option value="4">Period 4</option>
+                <option value="5">Period 5</option>
+                <option value="6">Period 6</option>
+                <option value="7">Period 7</option>
+            </select>
+
+            <label for="className">Class Name:</label>
+            <input type="text" id="className" placeholder="Enter class name">
+
+            <label for="classTime">Class Time:</label>
+            <input type="time" id="classTime">
+
+            <button onclick="saveClassReminder()">Save Reminder</button>
         </div>
     </div>
 
@@ -270,7 +320,7 @@
         function showContent(section) {
             document.getElementById('main-welcome').style.display = 'none';
             document.getElementById('assignments').style.display = 'none';
-            document.getElementById('class-notifications').style.display = 'none';
+            document.getElementById('class-reminder').style.display = 'none';
             document.getElementById('welcomeMessage').style.display = 'none';
 
             document.getElementById(section).style.display = 'block';
@@ -374,6 +424,56 @@
             saveAssignments(assignments);
             renderAssignments();
         }
+
+        function saveClassReminder() {
+            const classPeriod = document.getElementById('classPeriod').value;
+            const className = document.getElementById('className').value;
+            const classTime = document.getElementById('classTime').value;
+
+            if (className === '' || classTime === '') {
+                alert('Please fill in all fields');
+                return;
+            }
+
+            const classReminder = {
+                period: classPeriod,
+                name: className,
+                time: classTime
+            };
+
+            localStorage.setItem('classReminder', JSON.stringify(classReminder));
+            setupClassNotification(classReminder);
+            alert('Class reminder saved!');
+        }
+
+        function loadClassReminder() {
+            return JSON.parse(localStorage.getItem('classReminder')) || null;
+        }
+
+        function setupClassNotification(classReminder) {
+            if ('Notification' in window && Notification.permission === 'granted') {
+                const currentTime = new Date().toISOString().slice(11, 16); // HH:MM format
+                if (classReminder.time === currentTime) {
+                    new Notification(`Reminder: It's time for ${classReminder.name}, Period ${classReminder.period}`);
+                }
+            } else if ('Notification' in window) {
+                Notification.requestPermission().then(permission => {
+                    if (permission === 'granted') {
+                        setupClassNotification(classReminder);
+                    }
+                });
+            }
+        }
+
+        function checkClassNotification() {
+            const classReminder = loadClassReminder();
+            if (classReminder) {
+                setupClassNotification(classReminder);
+            }
+        }
+
+        // Setup a periodic check every minute to see if it's time for a class reminder
+        setInterval(checkClassNotification, 60000);
 
         displayWelcomeMessage();
         showContent('main-welcome');
