@@ -260,16 +260,16 @@
         }
 
         .changelog {
-            margin-top: 40px;
+            margin-top: 30px;
             background: #2e3b55;
-            padding: 25px;
+            padding: 20px;
             border-radius: 10px;
             box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
         }
 
         .changelog h3 {
-            font-size: 26px;
-            margin-bottom: 20px;
+            font-size: 24px;
+            margin-bottom: 15px;
             color: #ff2e63;
             text-shadow: 0 0 5px #4c566a;
         }
@@ -280,21 +280,21 @@
         }
 
         .changelog ul li {
-            margin-bottom: 12px;
-            font-size: 18px;
+            margin-bottom: 10px;
+            font-size: 16px;
             color: #e0e1dd;
         }
 
         .changelog .upcoming {
-            margin-top: 30px;
-            padding-top: 20px;
+            margin-top: 20px;
+            padding-top: 15px;
             border-top: 1px solid #3a4a69;
         }
 
         .changelog .upcoming h4 {
-            font-size: 22px;
+            font-size: 20px;
             color: #ffffff;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
             text-shadow: 0 0 5px #4c566a;
         }
 
@@ -303,12 +303,11 @@
         }
 
         .changelog .upcoming ul li {
-            font-size: 18px;
-            margin-bottom: 10px;
+            font-size: 16px;
+            margin-bottom: 8px;
             color: #cccccc;
         }
 
-        /* Responsive Design */
         @media (max-width: 768px) {
             .sidebar {
                 width: 100%;
@@ -348,6 +347,14 @@
 
             .user-info span {
                 font-size: 16px;
+            }
+
+            .content-section {
+                padding: 20px;
+            }
+
+            .changelog {
+                padding: 15px;
             }
         }
     </style>
@@ -419,7 +426,6 @@
                 <button onclick="addAssignment()">Add Assignment</button>
 
                 <div class="assignment-list" id="assignmentList">
-                    <!-- Dynamically generated assignments will appear here -->
                 </div>
             </div>
 
@@ -448,32 +454,23 @@
     </div>
 
     <script>
-        // Show content based on the active section
         function showContent(section) {
-            // Hide all sections
             document.querySelectorAll('.content-section').forEach(function (content) {
                 content.style.display = 'none';
             });
-
-            // Remove active class from all nav items
             document.querySelectorAll('.nav-item a').forEach(function (link) {
                 link.classList.remove('active');
             });
-
-            // Show the selected section and add active class to the corresponding nav item
             document.getElementById(section).style.display = 'block';
             document.querySelector(`.nav-item a[data-section="${section}"]`).classList.add('active');
-
-            // Save the current section to localStorage so it persists on page reload
             localStorage.setItem('activeSection', section);
         }
 
-        // Load the active section from localStorage on page load
         document.addEventListener('DOMContentLoaded', function () {
             const activeSection = localStorage.getItem('activeSection') || 'main-welcome';
             showContent(activeSection);
             renderAssignments();
-            checkClassNotification(); // Check for class notifications on page load
+            checkClassNotification();
         });
 
         function saveAssignments(assignments) {
@@ -622,7 +619,6 @@
             }
         }
 
-        // Setup a periodic check every minute to see if it's time for a class reminder
         setInterval(checkClassNotification, 60000);
     </script>
 </body>
