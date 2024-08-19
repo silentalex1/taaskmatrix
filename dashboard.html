@@ -10,10 +10,10 @@
         body {
             font-family: 'Roboto', sans-serif;
             margin: 0;
-            display: flex;
             height: 100vh;
-            background-color: #1a1a2e;
-            color: white;
+            background-color: #121212;
+            color: #ffffff;
+            display: flex;
             overflow: hidden;
         }
 
@@ -24,76 +24,93 @@
         }
 
         .sidebar {
-            width: 280px;
-            background: #0f3460;
-            padding: 30px 20px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            width: 260px;
+            background: #1f1f1f;
+            padding: 20px;
+            box-shadow: 4px 0 15px rgba(0, 0, 0, 0.4);
             flex-shrink: 0;
             display: flex;
             flex-direction: column;
-            height: 100%;
+            justify-content: space-between;
         }
 
         .sidebar h2 {
-            font-size: 28px;
+            font-size: 24px;
             text-align: center;
             margin-bottom: 40px;
+            color: #ffffff;
         }
 
         .sidebar .nav-item {
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
 
         .sidebar .nav-item a {
             text-decoration: none;
-            color: #e94560;
+            color: #b8b8b8;
             font-weight: bold;
-            font-size: 20px;
+            font-size: 18px;
             display: block;
-            padding: 12px;
+            padding: 12px 20px;
             border-radius: 8px;
             transition: background 0.3s ease, color 0.3s ease;
         }
 
-        .sidebar .nav-item a:hover {
-            background: rgba(233, 69, 96, 0.2);
-            color: #fff;
+        .sidebar .nav-item a:hover,
+        .sidebar .nav-item a.active {
+            background: #373737;
+            color: #ffffff;
         }
 
         .content-area {
-            display: flex;
-            flex-direction: column;
             flex-grow: 1;
             padding: 40px;
-            background: #16213e;
+            background: #121212;
+            display: flex;
+            flex-direction: column;
             overflow-y: auto;
-            align-items: flex-start;
-            justify-content: flex-start;
+            transition: all 0.3s ease;
         }
 
-        .welcome-message {
-            background: #1a1a2e;
-            padding: 25px;
-            border-radius: 12px;
-            width: 100%;
-            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.5);
-            margin-bottom: 20px;
+        .content-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
         }
 
-        .welcome-message h1 {
-            font-size: 36px;
-            text-align: center;
-            letter-spacing: 1px;
+        .content-header h1 {
+            font-size: 32px;
+            font-weight: bold;
+            color: #ffffff;
+            margin: 0;
+        }
+
+        .content-header .user-info {
+            display: flex;
+            align-items: center;
+        }
+
+        .user-info img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .user-info span {
+            font-size: 18px;
+            font-weight: bold;
+            color: #ffffff;
         }
 
         .content-section {
-            background: #1a1a2e;
-            padding: 25px;
+            background: #1f1f1f;
+            padding: 30px;
             border-radius: 12px;
-            width: 100%;
-            max-width: 800px;
-            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.5);
-            margin-bottom: 20px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
         }
 
         .content-section h2 {
@@ -107,7 +124,7 @@
             font-size: 18px;
             line-height: 1.6;
             margin-bottom: 20px;
-            color: #ccc;
+            color: #cccccc;
         }
 
         .content-section ul {
@@ -122,7 +139,7 @@
             display: block;
             margin-bottom: 10px;
             font-size: 18px;
-            color: #fff;
+            color: #ffffff;
         }
 
         .content-section input[type="text"],
@@ -131,18 +148,29 @@
         .content-section input[type="date"],
         .content-section input[type="time"] {
             width: 100%;
-            padding: 12px;
+            padding: 14px;
             margin-bottom: 20px;
             border: none;
             border-radius: 8px;
-            background: #0f3460;
+            background: #333333;
             color: white;
             font-size: 16px;
             box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
+            transition: all 0.3s ease;
+        }
+
+        .content-section input[type="text"]:focus,
+        .content-section textarea:focus,
+        .content-section select:focus,
+        .content-section input[type="date"]:focus,
+        .content-section input[type="time"]:focus {
+            background: #444444;
+            outline: none;
+            box-shadow: 0 0 10px rgba(233, 69, 96, 0.5);
         }
 
         .content-section button {
-            padding: 12px 20px;
+            padding: 14px 24px;
             background: #e94560;
             border: none;
             border-radius: 8px;
@@ -151,11 +179,12 @@
             font-weight: bold;
             font-size: 18px;
             transition: background 0.3s ease;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 5px 20px rgba(233, 69, 96, 0.3);
         }
 
         .content-section button:hover {
             background: #d03350;
+            box-shadow: 0 5px 20px rgba(233, 69, 96, 0.5);
         }
 
         .assignment-list {
@@ -163,7 +192,7 @@
         }
 
         .assignment-item {
-            background: #0f3460;
+            background: #333333;
             padding: 20px;
             border-radius: 10px;
             margin-bottom: 20px;
@@ -177,6 +206,7 @@
 
         .assignment-item:hover {
             transform: scale(1.02);
+            box-shadow: 0 2px 20px rgba(233, 69, 96, 0.5);
         }
 
         .assignment-item div {
@@ -185,7 +215,7 @@
 
         .assignment-item span {
             font-size: 18px;
-            color: #fff;
+            color: #ffffff;
             margin-bottom: 8px;
             display: block;
         }
@@ -193,13 +223,13 @@
         .assignment-item p {
             margin-top: 0;
             font-size: 16px;
-            color: #ccc;
+            color: #cccccc;
             margin-bottom: 20px;
         }
 
         .assignment-item time {
             font-size: 14px;
-            color: #bbb;
+            color: #bbbbbb;
         }
 
         .assignment-actions {
@@ -211,16 +241,17 @@
         .assignment-actions button {
             padding: 8px 15px;
             font-size: 16px;
-            background: #16213e;
+            background: #444444;
             color: white;
             border-radius: 5px;
             border: none;
             cursor: pointer;
-            transition: background 0.3s ease;
+            transition: background 0.3s ease, box-shadow 0.3s ease;
         }
 
         .assignment-actions button:hover {
-            background: #1a1a2e;
+            background: #555555;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
         }
 
         /* Responsive Design */
@@ -244,8 +275,8 @@
         }
 
         @media (max-width: 480px) {
-            .welcome-message h1 {
-                font-size: 28px;
+            .content-header h1 {
+                font-size: 24px;
             }
 
             .sidebar h2 {
@@ -256,6 +287,10 @@
                 font-size: 16px;
                 padding: 8px;
             }
+
+            .user-info span {
+                font-size: 16px;
+            }
         }
     </style>
 </head>
@@ -264,7 +299,7 @@
         <div class="sidebar">
             <h2>Taskmatrix</h2>
             <div class="nav-item">
-                <a href="#" onclick="showContent('main-welcome')">Main Welcome Page</a>
+                <a href="#" onclick="showContent('main-welcome')" class="active">Main Welcome Page</a>
             </div>
             <div class="nav-item">
                 <a href="#" onclick="showContent('assignments')">Assignments</a>
@@ -275,11 +310,15 @@
         </div>
 
         <div class="content-area">
-            <div id="welcomeMessage" class="welcome-message">
-                <h1>Welcome, User</h1>
+            <div class="content-header">
+                <h1>Dashboard</h1>
+                <div class="user-info">
+                    <img src="https://via.placeholder.com/40" alt="User Avatar">
+                    <span>Welcome, User</span>
+                </div>
             </div>
 
-            <div id="main-welcome" class="content-section" style="display: none;">
+            <div id="main-welcome" class="content-section">
                 <h2>Welcome to Taskmatrix</h2>
                 <p>Taskmatrix is your personal dashboard to manage all your school assignments and class notifications. With Taskmatrix, you can:</p>
                 <ul>
@@ -341,19 +380,10 @@
             document.getElementById('main-welcome').style.display = 'none';
             document.getElementById('assignments').style.display = 'none';
             document.getElementById('class-reminder').style.display = 'none';
-            document.getElementById('welcomeMessage').style.display = 'none';
+            document.querySelector('.nav-item a.active').classList.remove('active');
 
             document.getElementById(section).style.display = 'block';
-
-            if (section === 'main-welcome') {
-                document.getElementById('welcomeMessage').style.display = 'block';
-            }
-        }
-
-        function displayWelcomeMessage() {
-            const email = localStorage.getItem('userEmail') || 'User';
-            const username = email.split('@')[0];
-            document.getElementById('welcomeMessage').innerHTML = `<h1>Welcome, ${username}</h1>`;
+            document.querySelector(`.nav-item a[href*="${section}"]`).classList.add('active');
         }
 
         function saveAssignments(assignments) {
@@ -495,7 +525,6 @@
         // Setup a periodic check every minute to see if it's time for a class reminder
         setInterval(checkClassNotification, 60000);
 
-        displayWelcomeMessage();
         showContent('main-welcome');
         renderAssignments();
     </script>
