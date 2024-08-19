@@ -20,8 +20,8 @@
         }
 
         .signup-wrapper {
-            background: #0a192f;
-            padding: 50px;
+            background: rgba(10, 25, 47, 0.95);
+            padding: 60px;
             border-radius: 25px;
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7);
             width: 100%;
@@ -57,7 +57,7 @@
         }
 
         h2 {
-            font-size: 32px;
+            font-size: 36px;
             margin-bottom: 30px;
             background: linear-gradient(45deg, #1cb5e0, #000851);
             -webkit-background-clip: text;
@@ -102,6 +102,20 @@
         button:hover {
             transform: scale(1.05);
             box-shadow: 0 10px 30px rgba(0, 133, 81, 0.7);
+        }
+
+        .google-signup {
+            background: #4285F4;
+            color: white;
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .google-signup img {
+            width: 20px;
+            margin-right: 10px;
         }
 
         .flip-link {
@@ -180,6 +194,9 @@
             <input type="password" placeholder="Password" required>
             <input type="password" placeholder="Confirm Password" required>
             <button type="submit">Sign Up</button>
+            <button type="button" class="google-signup" onclick="signUpWithGoogle()">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png" alt="Google Logo">Or Sign Up with Google
+            </button>
         </form>
         <span class="flip-link" onclick="flipToLogin()">Already have an account? Log in</span>
     </div>
@@ -191,7 +208,12 @@
         };
 
         function flipToLogin() {
-            window.location.href = 'index.html'; // Redirects to the main HTML page
+            window.location.href = 'index.html';
+        }
+
+        function signUpWithGoogle() {
+            // This is a placeholder. In a real application, this should initiate the Google OAuth2 flow.
+            window.location.href = 'https://accounts.google.com/o/oauth2/auth?client_id=YOUR_GOOGLE_CLIENT_ID&redirect_uri=YOUR_REDIRECT_URI&response_type=code&scope=email%20profile';
         }
     </script>
 </body>
