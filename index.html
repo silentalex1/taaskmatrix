@@ -34,7 +34,6 @@
         h2 {
             font-size: 30px;
             margin-bottom: 25px;
-            color: #fff;
             background: linear-gradient(45deg, #ff416c, #ff4b2b);
             -webkit-background-clip: text;
             color: transparent;
@@ -92,7 +91,7 @@
             cursor: pointer;
             font-size: 16px;
             transition: all 0.3s ease;
-            display: none; /* Initially hidden */
+            display: none;
         }
 
         .dashboard-button:hover {
@@ -182,21 +181,16 @@
     <button class="dashboard-button" id="dashboardBtn" onclick="redirectToDashboard()">Skip to Dashboard</button>
 
     <script>
-        // List of authorized admin emails
         const authorizedEmails = ['grabem1@students.goshenschools.org', 'asdwwas233@gmail.com'];
 
-        // Function to check if the email is authorized
         function checkAdminAccess(email) {
             return authorizedEmails.includes(email);
         }
 
-        // Function to simulate getting the user's email (In a real scenario, this should come from your authentication system)
         function getUserEmail() {
-            // Example of detecting user email, in practice, you'd retrieve this from an auth provider or backend
-            return 'grabem1@students.goshenschools.org'; // Change this to test different emails
+            return 'grabem1@students.goshenschools.org';
         }
 
-        // Function to show the dashboard button if the user is an admin
         function displayDashboardButton() {
             const email = getUserEmail();
             if (checkAdminAccess(email)) {
@@ -204,30 +198,23 @@
             }
         }
 
-        // Function to redirect to the dashboard
         function redirectToDashboard() {
             window.location.href = 'dashboard.html';
         }
 
-        // Function to handle the signup redirection
         function flipToSignup() {
             window.location.href = 'signup.html';
         }
 
-        // Run the display function on page load
         window.onload = displayDashboardButton;
 
-        // Handle login submission
         document.getElementById('loginForm').onsubmit = function(event) {
             event.preventDefault();
             const username = event.target.username.value;
             const password = event.target.password.value;
 
-            // Here you would normally send the credentials to the server for validation.
-            // For now, we'll just simulate success or failure.
-
-            if (username === 'someUser' && password === 'somePassword') {  // Replace with your actual logic
-                window.location.href = 'dashboard.html'; // Redirect to dashboard on successful login
+            if (username === 'someUser' && password === 'somePassword') {
+                window.location.href = 'dashboard.html';
             } else {
                 alert('Invalid username or password');
             }
