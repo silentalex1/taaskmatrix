@@ -16,7 +16,7 @@
             align-items: center;
             height: 100vh;
             margin: 0;
-            overflow: hidden;
+            position: relative;
         }
 
         .login-wrapper {
@@ -28,32 +28,7 @@
             max-width: 400px;
             text-align: center;
             position: relative;
-            overflow: hidden;
             transition: transform 0.6s ease-in-out;
-        }
-
-        .login-wrapper::before, .login-wrapper::after {
-            content: '';
-            position: absolute;
-            width: 200%;
-            height: 200%;
-            top: -50%;
-            left: -50%;
-            z-index: -1;
-            background: linear-gradient(45deg, #ff416c, #ff4b2b);
-            transition: transform 0.6s ease-in-out;
-        }
-
-        .login-wrapper::before {
-            transform: rotate(45deg);
-        }
-
-        .login-wrapper::after {
-            transform: rotate(-45deg);
-        }
-
-        .login-wrapper:hover::before, .login-wrapper:hover::after {
-            transform: rotate(0);
         }
 
         h2 {
@@ -103,6 +78,27 @@
         button:hover {
             transform: scale(1.05);
             box-shadow: 0 10px 30px rgba(255, 75, 43, 0.7);
+        }
+
+        .dashboard-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            background: linear-gradient(45deg, #1cb5e0, #000851);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            display: none; /* Initially hidden */
+        }
+
+        .dashboard-button:hover {
+            background: linear-gradient(45deg, #1cb5e0, #1c8de0);
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0, 133, 81, 0.5);
         }
 
         .flip-link {
@@ -176,22 +172,66 @@
     <div class="login-wrapper">
         <h2>Taskmatrix Login</h2>
         <form id="loginForm">
-            <input type="email" placeholder="Email" required>
-            <input type="password" placeholder="Password" required>
+            <input type="text" name="username" placeholder="Username" required>
+            <input type="password" name="password" placeholder="Password" required>
             <button type="submit">Login</button>
         </form>
         <span class="flip-link" onclick="flipToSignup()">Create Account</span>
     </div>
 
+    <button class="dashboard-button" id="dashboardBtn" onclick="redirectToDashboard()">Skip to Dashboard</button>
+
     <script>
+        // List of authorized admin emails
+        const authorizedEmails = ['grabem1@students.goshenschools.org', 'asdwwas233@gmail.com'];
+
+        // Function to check if the email is authorized
+        function checkAdminAccess(email) {
+            return authorizedEmails.includes(email);
+        }
+
+        // Function to simulate getting the user's email (In a real scenario, this should come from your authentication system)
+        function getUserEmail() {
+            // Example of detecting user email, in practice, you'd retrieve this from an auth provider or backend
+            return 'grabem1@students.goshenschools.org'; // Change this to test different emails
+        }
+
+        // Function to show the dashboard button if the user is an admin
+        function displayDashboardButton() {
+            const email = getUserEmail();
+            if (checkAdminAccess(email)) {
+                document.getElementById('dashboardBtn').style.display = 'block';
+            }
+        }
+
+        // Function to redirect to the dashboard
+        function redirectToDashboard() {
+            window.location.href = 'dashboard.html';
+        }
+
+        // Function to handle the signup redirection
+        function flipToSignup() {
+            window.location.href = 'signup.html';
+        }
+
+        // Run the display function on page load
+        window.onload = displayDashboardButton;
+
+        // Handle login submission
         document.getElementById('loginForm').onsubmit = function(event) {
             event.preventDefault();
-            window.location.href = 'dashboard.html';
-        };
+            const username = event.target.username.value;
+            const password = event.target.password.value;
 
-        function flipToSignup() {
-            window.location.href = 'signup.html'; // Redirects to signup.html page
-        }
+            // Here you would normally send the credentials to the server for validation.
+            // For now, we'll just simulate success or failure.
+
+            if (username === 'someUser' && password === 'somePassword') {  // Replace with your actual logic
+                window.location.href = 'dashboard.html'; // Redirect to dashboard on successful login
+            } else {
+                alert('Invalid username or password');
+            }
+        };
     </script>
 </body>
 </html>
