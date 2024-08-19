@@ -259,6 +259,32 @@
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
 
+        .changelog {
+            margin-top: 40px;
+            background: #2e3b55;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .changelog h3 {
+            font-size: 24px;
+            margin-bottom: 15px;
+            color: #ff2e63;
+            text-shadow: 0 0 5px #4c566a;
+        }
+
+        .changelog ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        .changelog ul li {
+            margin-bottom: 10px;
+            font-size: 16px;
+            color: #e0e1dd;
+        }
+
         /* Responsive Design */
         @media (max-width: 768px) {
             .sidebar {
@@ -336,7 +362,14 @@
                     <li>Set up and receive reminders for important class times and deadlines.</li>
                     <li>Organize all your academic activities in one centralized place.</li>
                 </ul>
-                <p>Start by exploring the assignments or class reminder section to begin managing your tasks more efficiently.</p>
+                <div class="changelog">
+                    <h3>Changelog</h3>
+                    <ul>
+                        <li>Added dark blue and dark purple theme for a modern, sleek look.</li>
+                        <li>Enhanced the class reminder feature to support notifications.</li>
+                        <li>Improved overall UI with advanced visual effects and transitions.</li>
+                    </ul>
+                </div>
             </div>
 
             <div id="assignments" class="content-section" style="display: none;">
@@ -410,6 +443,7 @@
             const activeSection = localStorage.getItem('activeSection') || 'main-welcome';
             showContent(activeSection);
             renderAssignments();
+            checkClassNotification(); // Check for class notifications on page load
         });
 
         function saveAssignments(assignments) {
@@ -528,9 +562,19 @@
 
         function setupClassNotification(classReminder) {
             if ('Notification' in window && Notification.permission === 'granted') {
-                const currentTime = new Date().toISOString().slice(11, 16); // HH:MM format
-                if (classReminder.time === currentTime) {
-                    new Notification(`Reminder: It's time for ${classReminder.name}, Period ${classReminder.period}`);
+                const now = new Date();
+                const reminderTime = new Date();
+                const [hour, minute] = classReminder.time.split(':');
+                reminderTime.setHours(hour, minute, 0, 0);
+
+                const timeUntilReminder = reminderTime - now;
+
+                if (timeUntilReminder > 0) {
+                    setTimeout(() => {
+                        new Notification(`Reminder: It's time for ${classReminder.name}, Period ${classReminder.period}`);
+                    }, timeUntilReminder);
+                } else {
+                    alert('The time you set has already passed today.');
                 }
             } else if ('Notification' in window) {
                 Notification.requestPermission().then(permission => {
