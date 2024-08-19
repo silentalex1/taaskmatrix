@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Taskmatrix Login</title>
+    <title>Taskmatrix Sign Up</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
 
@@ -16,32 +16,54 @@
             align-items: center;
             height: 100vh;
             margin: 0;
-            position: relative;
             overflow: hidden;
-            background: radial-gradient(circle at center, #1a1a2e, #0f3460, #16213e);
         }
 
-        .login-wrapper {
+        .signup-wrapper {
             background: #0a192f;
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8);
+            padding: 50px;
+            border-radius: 25px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7);
             width: 100%;
-            max-width: 400px;
+            max-width: 450px;
             text-align: center;
             position: relative;
+            overflow: hidden;
             transition: transform 0.6s ease-in-out;
+        }
+
+        .signup-wrapper::before, .signup-wrapper::after {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            top: -50%;
+            left: -50%;
+            z-index: -1;
+            background: linear-gradient(45deg, #1cb5e0, #000851);
+            transition: transform 0.6s ease-in-out;
+        }
+
+        .signup-wrapper::before {
+            transform: rotate(45deg);
+        }
+
+        .signup-wrapper::after {
+            transform: rotate(-45deg);
+        }
+
+        .signup-wrapper:hover::before, .signup-wrapper:hover::after {
+            transform: rotate(0);
         }
 
         h2 {
             font-size: 32px;
-            margin-bottom: 25px;
-            background: linear-gradient(45deg, #ff416c, #ff4b2b);
+            margin-bottom: 30px;
+            background: linear-gradient(45deg, #1cb5e0, #000851);
             -webkit-background-clip: text;
             color: transparent;
             letter-spacing: 2px;
             text-transform: uppercase;
-            animation: fadeIn 1.2s ease;
         }
 
         input {
@@ -54,21 +76,19 @@
             color: white;
             font-size: 16px;
             transition: all 0.3s ease;
-            box-shadow: inset 0 5px 10px rgba(0, 0, 0, 0.5);
-            animation: fadeIn 1.4s ease;
         }
 
         input:focus {
             outline: none;
             background: rgba(255, 255, 255, 0.2);
-            box-shadow: 0 0 15px rgba(255, 255, 255, 0.3), inset 0 0 10px rgba(0, 0, 0, 0.7);
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.2), inset 0 0 10px rgba(0, 0, 0, 0.5);
         }
 
         button {
             width: 100%;
             padding: 15px;
             margin-top: 20px;
-            background: linear-gradient(45deg, #ff416c, #ff4b2b);
+            background: linear-gradient(45deg, #1cb5e0, #000851);
             border: none;
             border-radius: 10px;
             cursor: pointer;
@@ -76,56 +96,25 @@
             font-weight: bold;
             font-size: 18px;
             transition: all 0.3s ease;
-            box-shadow: 0 10px 25px rgba(255, 75, 43, 0.7);
-            animation: fadeIn 1.6s ease;
+            box-shadow: 0 7px 20px rgba(0, 133, 81, 0.5);
         }
 
         button:hover {
-            transform: scale(1.08);
-            box-shadow: 0 15px 35px rgba(255, 75, 43, 0.9);
-        }
-
-        .dashboard-button {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            padding: 10px 20px;
-            background: linear-gradient(45deg, #1cb5e0, #000851);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 16px;
-            transition: all 0.3s ease;
-            width: auto;
-            min-width: 150px;
-            max-width: 250px;
-            text-align: center;
-            box-shadow: 0 7px 20px rgba(0, 133, 81, 0.5);
-            opacity: 1;
-            pointer-events: auto;
-            animation: fadeIn 1.8s ease;
-        }
-
-        .dashboard-button.disabled {
-            background: gray;
-            opacity: 0.5;
-            pointer-events: none;
-            box-shadow: none;
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(0, 133, 81, 0.7);
         }
 
         .flip-link {
-            color: #ff416c;
+            color: #1cb5e0;
             cursor: pointer;
             font-size: 16px;
             display: block;
             margin-top: 20px;
             transition: color 0.3s;
-            animation: fadeIn 2s ease;
         }
 
         .flip-link:hover {
-            color: #ff6f91;
+            color: #1c90e0;
         }
 
         @media (max-width: 768px) {
@@ -133,15 +122,15 @@
                 padding: 20px;
             }
 
-            .login-wrapper {
-                padding: 30px;
-                border-radius: 15px;
-                box-shadow: 0 7px 20px rgba(0, 0, 0, 0.7);
+            .signup-wrapper {
+                padding: 35px;
+                border-radius: 20px;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
             }
 
             h2 {
-                font-size: 26px;
-                margin-bottom: 20px;
+                font-size: 28px;
+                margin-bottom: 25px;
             }
 
             input {
@@ -153,23 +142,17 @@
                 padding: 12px;
                 font-size: 16px;
             }
-
-            .dashboard-button {
-                min-width: 120px;
-                max-width: 200px;
-                font-size: 14px;
-            }
         }
 
         @media (max-width: 480px) {
-            .login-wrapper {
-                padding: 20px;
-                border-radius: 10px;
+            .signup-wrapper {
+                padding: 25px;
+                border-radius: 15px;
             }
 
             h2 {
-                font-size: 22px;
-                margin-bottom: 15px;
+                font-size: 24px;
+                margin-bottom: 20px;
             }
 
             input {
@@ -185,87 +168,31 @@
             .flip-link {
                 font-size: 14px;
             }
-
-            .dashboard-button {
-                min-width: 100px;
-                max-width: 150px;
-                font-size: 12px;
-            }
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
         }
     </style>
 </head>
 <body>
-    <div class="login-wrapper">
-        <h2>Taskmatrix Login</h2>
-        <form id="loginForm">
-            <input type="text" name="username" placeholder="Username" required>
-            <input type="password" name="password" placeholder="Password" required>
-            <button type="submit">Login</button>
+    <div class="signup-wrapper">
+        <h2>Sign Up</h2>
+        <form id="signupForm">
+            <input type="text" placeholder="Username" required>
+            <input type="email" placeholder="Email" required>
+            <input type="password" placeholder="Password" required>
+            <input type="password" placeholder="Confirm Password" required>
+            <button type="submit">Sign Up</button>
         </form>
-        <span class="flip-link" onclick="flipToSignup()">Create Account</span>
+        <span class="flip-link" onclick="flipToLogin()">Already have an account? Log in</span>
     </div>
 
-    <button class="dashboard-button" id="dashboardBtn" onclick="redirectToDashboard()">Skip to Dashboard</button>
-
     <script>
-        const authorizedEmails = ['grabem1@students.goshenschools.org', 'asdwwas233@gmail.com'];
-
-        function checkAdminAccess(email) {
-            return authorizedEmails.includes(email);
-        }
-
-        function getUserEmail() {
-            return localStorage.getItem('userEmail'); 
-        }
-
-        function displayDashboardButton() {
-            const email = getUserEmail();
-            const dashboardBtn = document.getElementById('dashboardBtn');
-
-            if (email && checkAdminAccess(email)) {
-                dashboardBtn.classList.remove('disabled');
-                dashboardBtn.style.display = 'block';
-            } else {
-                dashboardBtn.classList.add('disabled');
-                dashboardBtn.style.display = 'block';
-            }
-        }
-
-        function redirectToDashboard() {
-            if (!document.getElementById('dashboardBtn').classList.contains('disabled')) {
-                window.location.href = 'dashboard.html';
-            }
-        }
-
-        function flipToSignup() {
-            window.location.href = 'signup.html';
-        }
-
-        window.onload = displayDashboardButton;
-
-        document.getElementById('loginForm').onsubmit = function(event) {
+        document.getElementById('signupForm').onsubmit = function(event) {
             event.preventDefault();
-            const username = event.target.username.value;
-            const password = event.target.password.value;
-
-            if (username === 'someUser' && password === 'somePassword') {
-                localStorage.setItem('userEmail', 'someUserEmail@example.com');
-                window.location.href = 'dashboard.html';
-            } else {
-                alert('Invalid username or password');
-            }
+            window.location.href = 'dashboard.html';
         };
+
+        function flipToLogin() {
+            window.location.href = 'index.html'; // Redirects to the main HTML page
+        }
     </script>
 </body>
 </html>
