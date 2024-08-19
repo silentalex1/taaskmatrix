@@ -299,13 +299,13 @@
         <div class="sidebar">
             <h2>Taskmatrix</h2>
             <div class="nav-item">
-                <a href="#" onclick="showContent('main-welcome')" class="active">Main Welcome Page</a>
+                <a href="#" onclick="showContent('main-welcome')" class="active" data-section="main-welcome">Main Welcome Page</a>
             </div>
             <div class="nav-item">
-                <a href="#" onclick="showContent('assignments')">Assignments</a>
+                <a href="#" onclick="showContent('assignments')" data-section="assignments">Assignments</a>
             </div>
             <div class="nav-item">
-                <a href="#" onclick="showContent('class-reminder')">Class Reminder</a>
+                <a href="#" onclick="showContent('class-reminder')" data-section="class-reminder">Class Reminder</a>
             </div>
         </div>
 
@@ -376,15 +376,32 @@
     </div>
 
     <script>
+        // Show content based on the active section
         function showContent(section) {
-            document.getElementById('main-welcome').style.display = 'none';
-            document.getElementById('assignments').style.display = 'none';
-            document.getElementById('class-reminder').style.display = 'none';
-            document.querySelector('.nav-item a.active').classList.remove('active');
+            // Hide all sections
+            document.querySelectorAll('.content-section').forEach(function (content) {
+                content.style.display = 'none';
+            });
 
+            // Remove active class from all nav items
+            document.querySelectorAll('.nav-item a').forEach(function (link) {
+                link.classList.remove('active');
+            });
+
+            // Show the selected section and add active class to the corresponding nav item
             document.getElementById(section).style.display = 'block';
-            document.querySelector(`.nav-item a[href*="${section}"]`).classList.add('active');
+            document.querySelector(`.nav-item a[data-section="${section}"]`).classList.add('active');
+
+            // Save the current section to localStorage so it persists on page reload
+            localStorage.setItem('activeSection', section);
         }
+
+        // Load the active section from localStorage on page load
+        document.addEventListener('DOMContentLoaded', function () {
+            const activeSection = localStorage.getItem('activeSection') || 'main-welcome';
+            showContent(activeSection);
+            renderAssignments();
+        });
 
         function saveAssignments(assignments) {
             localStorage.setItem('assignments', JSON.stringify(assignments));
@@ -524,9 +541,6 @@
 
         // Setup a periodic check every minute to see if it's time for a class reminder
         setInterval(checkClassNotification, 60000);
-
-        showContent('main-welcome');
-        renderAssignments();
     </script>
 </body>
 </html>
