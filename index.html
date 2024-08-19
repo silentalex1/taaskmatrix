@@ -3,18 +3,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Black Background</title>
+    <title>Taskmatrix Login</title>
     <style>
         body {
-            background-color: black;
-            margin: 0;
-            padding: 0;
-            height: 100vh;
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(to right, #1a1a2e, #16213e);
             color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .login-container {
+            background: #0f3460;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            width: 300px;
+            text-align: center;
+        }
+        .login-container input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 5px;
+            background: #e94560;
+            color: white;
+        }
+        .login-container button {
+            width: 100%;
+            padding: 10px;
+            background: #16213e;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            color: white;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+        .login-container button:hover {
+            background: #1a1a2e;
         }
     </style>
 </head>
 <body>
-    <h1>Testing site page.</h1>
+    <div class="login-container">
+        <h2>Taskmatrix Login</h2>
+        <form id="loginForm">
+            <input type="email" placeholder="Email" required>
+            <input type="password" placeholder="Password" required>
+            <button type="submit">Login</button>
+        </form>
+    </div>
 </body>
 </html>
