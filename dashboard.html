@@ -94,7 +94,8 @@
 
         .content-section input[type="text"],
         .content-section textarea,
-        .content-section select {
+        .content-section select,
+        .content-section input[type="date"] {
             width: 100%;
             padding: 12px;
             margin-bottom: 20px;
@@ -139,6 +140,10 @@
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
         }
 
+        .assignment-item div {
+            flex-grow: 1;
+        }
+
         .assignment-item span {
             font-size: 18px;
             color: #fff;
@@ -173,6 +178,9 @@
     <div class="sidebar">
         <h2>Taskmatrix</h2>
         <div class="nav-item">
+            <a href="#" onclick="showContent('main-welcome')">Main Welcome Page</a>
+        </div>
+        <div class="nav-item">
             <a href="#" onclick="showContent('assignments')">Assignments</a>
         </div>
         <div class="nav-item">
@@ -183,6 +191,17 @@
     <div class="main-content">
         <div id="welcomeMessage" class="welcome-message">
             <h1>Welcome, User</h1>
+        </div>
+
+        <div id="main-welcome" class="content-section" style="display: none;">
+            <h2>Welcome to Taskmatrix</h2>
+            <p>Taskmatrix is your personal dashboard to manage all your school assignments and class notifications. Here, you can:</p>
+            <ul>
+                <li>Track assignments and their due dates.</li>
+                <li>Keep notes for each assignment.</li>
+                <li>Set reminders for class timings and important deadlines.</li>
+                <li>Organize your academic life in one place.</li>
+            </ul>
         </div>
 
         <div id="assignments" class="content-section" style="display: none;">
@@ -214,10 +233,16 @@
 
     <script>
         function showContent(section) {
+            document.getElementById('main-welcome').style.display = 'none';
             document.getElementById('assignments').style.display = 'none';
             document.getElementById('class-notifications').style.display = 'none';
+            document.getElementById('welcomeMessage').style.display = 'none';
 
             document.getElementById(section).style.display = 'block';
+
+            if (section === 'main-welcome') {
+                document.getElementById('welcomeMessage').style.display = 'block';
+            }
         }
 
         function displayWelcomeMessage() {
@@ -316,7 +341,7 @@
         }
 
         displayWelcomeMessage();
-        showContent('assignments');
+        showContent('main-welcome');
         renderAssignments();
     </script>
 </body>
