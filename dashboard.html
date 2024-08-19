@@ -93,7 +93,8 @@
         }
 
         .content-section input[type="text"],
-        .content-section textarea {
+        .content-section textarea,
+        .content-section select {
             width: 100%;
             padding: 12px;
             margin-bottom: 20px;
@@ -141,6 +142,14 @@
         .assignment-item span {
             font-size: 18px;
             color: #fff;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .assignment-item p {
+            margin-top: 0;
+            font-size: 16px;
+            color: #ccc;
         }
 
         .assignment-actions button {
@@ -184,6 +193,12 @@
             <label for="assignmentNotes">Notes:</label>
             <textarea id="assignmentNotes" rows="4" placeholder="Enter your notes"></textarea>
 
+            <label for="assignmentDueDate">Due Date:</label>
+            <input type="date" id="assignmentDueDate">
+
+            <label for="assignmentCreatedDate">Created Date:</label>
+            <input type="date" id="assignmentCreatedDate">
+
             <button onclick="addAssignment()">Add Assignment</button>
 
             <div class="assignment-list" id="assignmentList">
@@ -211,51 +226,98 @@
             document.getElementById('welcomeMessage').innerHTML = `<h1>Welcome, ${username}</h1>`;
         }
 
+        function saveAssignments(assignments) {
+            localStorage.setItem('assignments', JSON.stringify(assignments));
+        }
+
+        function loadAssignments() {
+            return JSON.parse(localStorage.getItem('assignments')) || [];
+        }
+
         function addAssignment() {
             const assignmentName = document.getElementById('assignmentName').value;
             const assignmentNotes = document.getElementById('assignmentNotes').value;
+            const assignmentDueDate = document.getElementById('assignmentDueDate').value;
+            const assignmentCreatedDate = document.getElementById('assignmentCreatedDate').value;
 
             if (assignmentName === '') {
                 alert('Please enter an assignment name');
                 return;
             }
 
-            const assignmentItem = document.createElement('div');
-            assignmentItem.classList.add('assignment-item');
+            const assignments = loadAssignments();
+            assignments.push({
+                name: assignmentName,
+                notes: assignmentNotes,
+                dueDate: assignmentDueDate,
+                createdDate: assignmentCreatedDate
+            });
 
-            assignmentItem.innerHTML = `
-                <span>${assignmentName}</span>
-                <div class="assignment-actions">
-                    <button onclick="editAssignment(this)">Edit</button>
-                    <button onclick="deleteAssignment(this)">Delete</button>
-                </div>
-                <p>${assignmentNotes}</p>
-            `;
-
-            document.getElementById('assignmentList').appendChild(assignmentItem);
-
+            saveAssignments(assignments);
+            renderAssignments();
             document.getElementById('assignmentName').value = '';
             document.getElementById('assignmentNotes').value = '';
+            document.getElementById('assignmentDueDate').value = '';
+            document.getElementById('assignmentCreatedDate').value = '';
         }
 
-        function editAssignment(button) {
-            const assignmentItem = button.closest('.assignment-item');
-            const assignmentName = prompt('Edit assignment name:', assignmentItem.querySelector('span').innerText);
-            const assignmentNotes = prompt('Edit assignment notes:', assignmentItem.querySelector('p').innerText);
+        function renderAssignments() {
+            const assignmentList = document.getElementById('assignmentList');
+            assignmentList.innerHTML = '';
+            const assignments = loadAssignments();
 
-            if (assignmentName !== null && assignmentNotes !== null) {
-                assignmentItem.querySelector('span').innerText = assignmentName;
-                assignmentItem.querySelector('p').innerText = assignmentNotes;
+            assignments.forEach((assignment, index) => {
+                const assignmentItem = document.createElement('div');
+                assignmentItem.classList.add('assignment-item');
+
+                assignmentItem.innerHTML = `
+                    <div>
+                        <span><strong>Name:</strong> ${assignment.name}</span>
+                        <span><strong>Due Date:</strong> ${assignment.dueDate}</span>
+                        <span><strong>Created Date:</strong> ${assignment.createdDate}</span>
+                        <p>${assignment.notes}</p>
+                    </div>
+                    <div class="assignment-actions">
+                        <button onclick="editAssignment(${index})">Edit</button>
+                        <button onclick="deleteAssignment(${index})">Delete</button>
+                    </div>
+                `;
+
+                assignmentList.appendChild(assignmentItem);
+            });
+        }
+
+        function editAssignment(index) {
+            const assignments = loadAssignments();
+            const assignment = assignments[index];
+
+            const newName = prompt('Edit assignment name:', assignment.name);
+            const newNotes = prompt('Edit assignment notes:', assignment.notes);
+            const newDueDate = prompt('Edit assignment due date:', assignment.dueDate);
+            const newCreatedDate = prompt('Edit assignment created date:', assignment.createdDate);
+
+            if (newName !== null && newNotes !== null && newDueDate !== null && newCreatedDate !== null) {
+                assignments[index] = {
+                    name: newName,
+                    notes: newNotes,
+                    dueDate: newDueDate,
+                    createdDate: newCreatedDate
+                };
+                saveAssignments(assignments);
+                renderAssignments();
             }
         }
 
-        function deleteAssignment(button) {
-            const assignmentItem = button.closest('.assignment-item');
-            assignmentItem.remove();
+        function deleteAssignment(index) {
+            const assignments = loadAssignments();
+            assignments.splice(index, 1);
+            saveAssignments(assignments);
+            renderAssignments();
         }
 
         displayWelcomeMessage();
         showContent('assignments');
+        renderAssignments();
     </script>
 </body>
 </html>
