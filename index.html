@@ -5,97 +5,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Taskmatrix Dashboard</title>
     <style>
-        body{margin:0;padding:0;background:#0d1b2a;color:#ffffff;font-family:'Roboto',sans-serif;display:flex;justify-content:center;align-items:center;height:100vh;overflow:hidden;position:relative}
-        .a{display:flex;width:95%;max-width:1400px;height:90%;border-radius:20px;background:linear-gradient(145deg,#1b263b,#0a1524);box-shadow:10px 10px 30px rgba(0,0,0,.6),-10px -10px 30px rgba(255,255,255,.05);overflow:hidden;position:relative;animation:fadeIn 1s ease-in-out}
-        .b{position:absolute;top:0;left:0;width:100%;height:100%;z-index:1;background:repeating-linear-gradient(45deg,transparent,transparent 10px,rgba(100,61,136,.2) 10px,rgba(100,61,136,.2) 20px);pointer-events:none;opacity:.7;animation:moveBackground 5s linear infinite}
-        .c{width:280px;background:#0d1b2a;border-right:2px solid #1b263b;display:flex;flex-direction:column;align-items:center;padding:30px 20px;box-shadow:10px 0 30px rgba(0,0,0,.6);overflow-y:auto;z-index:2;animation:slideIn .5s ease-in-out}
-        .c h2{font-size:28px;color:#ff2e63;text-shadow:0 0 10px rgba(255,46,99,.8);margin-bottom:50px}
-        .c .nav-item{width:100%;margin-bottom:30px}
-        .c .nav-item a{text-decoration:none;color:#fff;font-size:20px;font-weight:bold;padding:15px 20px;border-radius:15px;display:block;text-align:center;transition:background .3s ease,transform .3s ease,box-shadow .3s ease;box-shadow:0 5px 15px rgba(0,0,0,.3)}
-        .c .nav-item a:hover,.c .nav-item a.active{background:#ff2e63;color:#fff;transform:scale(1.1);box-shadow:0 5px 30px rgba(255,46,99,.5)}
-        .d{flex-grow:1;padding:40px;overflow-y:auto;display:flex;flex-direction:column;gap:40px;background:#1b263b;border-radius:20px;box-shadow:inset 0 0 30px rgba(0,0,0,.5);transition:all .3s ease;z-index:2;animation:fadeIn 1.5s ease-in-out}
-        .d .header{display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid #2e3b55;padding-bottom:20px}
-        .d .header h1{font-size:40px;font-weight:bold;color:#ff2e63;text-shadow:0 0 10px #ff2e63,0 0 20px #ff2e63;animation:glow 2s ease-in-out infinite}
-        .d .header .user-info{display:flex;align-items:center}
-        .d .header .user-info img{width:50px;height:50px;border-radius:50%;margin-right:20px;box-shadow:0 0 10px rgba(0,0,0,.5);transform:scale(1);transition:transform .3s ease}
-        .d .header .user-info img:hover{transform:scale(1.2)}
-        .d .header .user-info span{font-size:22px;font-weight:bold;color:#e0e1dd}
-        .d .content-section{background:#1b263b;padding:40px;border-radius:20px;box-shadow:0 10px 40px rgba(0,0,0,.7),inset 0 0 20px rgba(255,46,99,.3);transition:all .3s ease;animation:fadeInUp 1s ease-in-out}
-        .d .content-section h2{font-size:34px;margin-bottom:20px;color:#ff2e63;text-shadow:0 0 12px #ff2e63}
-        .d .content-section p,.d .content-section ul{font-size:20px;line-height:1.7;margin-bottom:20px;color:#e0e1dd}
-        .d .content-section ul{padding-left:20px}
-        .d .content-section ul li{margin-bottom:12px}
-        .d .content-section label{display:block;margin-bottom:12px;font-size:20px;color:#e0e1dd}
-        .d .content-section input[type="text"],.d .content-section textarea,.d .content-section select,.d .content-section input[type="date"],.d .content-section input[type="time"]{width:100%;padding:16px;margin-bottom:20px;border:none;border-radius:15px;background:#2e3b55;color:white;font-size:20px;box-shadow:inset 0 0 10px rgba(0,0,0,.5);transition:all .3s ease}
-        .d .content-section input[type="text"]:focus,.d .content-section textarea:focus,.d .content-section select:focus,.d .content-section input[type="date"]:focus,.d .content-section input[type="time"]:focus{background:#3a4a69;outline:none;box-shadow:0 0 15px rgba(255,46,99,.5)}
-        .d .content-section button{padding:16px 32px;background:#ff2e63;border:none;border-radius:15px;cursor:pointer;color:white;font-weight:bold;font-size:22px;transition:background .3s ease,box-shadow .3s ease;box-shadow:0 10px 40px rgba(255,46,99,.3)}
-        .d .content-section button:hover{background:#d81b60;box-shadow:0 10px 40px rgba(255,46,99,.5)}
-        .d .assignment-list{margin-top:30px}
-        .d .assignment-item{background:#2e3b55;padding:24px;border-radius:15px;margin-bottom:20px;display:flex;flex-direction:column;justify-content:space-between;align-items:flex-start;box-shadow:0 5px 20px rgba(0,0,0,.6);transition:transform .3s ease,box-shadow .3s ease}
-        .d .assignment-item:hover{transform:scale(1.05);box-shadow:0 5px 30px rgba(255,46,99,.6)}
-        .d .assignment-item div{width:100%}
-        .d .assignment-item span{font-size:20px;color:#fff;margin-bottom:10px;display:block}
-        .d .assignment-item p{margin-top:0;font-size:18px;color:#ccc;margin-bottom:20px}
-        .d .assignment-item time{font-size:16px;color:#bbb}
-        .d .assignment-actions{display:flex;justify-content:flex-end;gap:12px}
-        .d .assignment-actions button{padding:12px 18px;font-size:18px;background:#3a4a69;color:white;border-radius:12px;border:none;cursor:pointer;transition:background .3s ease,box-shadow .3s ease}
-        .d .assignment-actions button:hover{background:#4b5b7d;box-shadow:0 5px 15px rgba(0,0,0,.3)}
-        .e{position:fixed;top:0;left:0;width:100%;height:100%;display:flex;justify-content:center;align-items:center;background-color:rgba(0,0,0,.8);z-index:9999;opacity:0;visibility:hidden;transition:opacity .5s ease,visibility .5s ease}
-        .e.active{opacity:1;visibility:visible}
-        .e h1{font-size:52px;color:#ff2e63;text-shadow:0 0 15px #fff,0 0 25px #ff2e63,0 0 50px #ff2e63;animation:celebrationAnimation 1s ease forwards}
-        .f{position:absolute;width:30px;height:50px;background-color:#ff2e63;border-radius:50%;box-shadow:0 0 15px rgba(0,0,0,.3);animation:balloonFall 5s ease-in forwards}
-        .f::before{content:'';position:absolute;top:100%;left:50%;width:2px;height:20px;background-color:#ff2e63;transform:translateX(-50%)}
-        @keyframes fadeIn{0%{opacity:0}100%{opacity:1}}
-        @keyframes slideIn{0%{transform:translateX(-100%)}100%{transform:translateX(0)}}
-        @keyframes moveBackground{0%{background-position:0 0}100%{background-position:100% 100%}}
-        @keyframes glow{0%{text-shadow:0 0 10px #ff2e63}50%{text-shadow:0 0 20px #ff2e63}100%{text-shadow:0 0 10px #ff2e63}}
-        @keyframes fadeInUp{0%{opacity:0;transform:translateY(20px)}100%{opacity:1;transform:translateY(0)}}
-        @keyframes celebrationAnimation{0%{transform:scale(0)}50%{transform:scale(1.2)}100%{transform:scale(1)}}
-        @keyframes balloonFall{0%{top:-20%;opacity:0}100%{top:100%;opacity:1}}
-    </style>
-</head>
-<body>
-    <div class="a">
-        <div class="b"></div>
-        <div class="c">
-            <h2>Dashboard</h2>
-            <div class="nav-item"><a href="#" class="active">Home</a></div>
-            <div class="nav-item"><a href="#">Assignments</a></div>
-            <div class="nav-item"><a href="#">Profile</a></div>
-            <div class="nav-item"><a href="#">Settings</a></div>
-        </div>
-        <div class="d">
-            <div class="header">
-                <h1>Welcome, User</h1>
-                <div class="user-info">
-                    <img src="avatar.jpg" alt="User Avatar">
-                    <span>User Name</span>
-                </div>
-            </div>
-            <div class="content-section">
-                <h2>Assignments</h2>
-                <p>Here is a list of your current assignments:</p>
-                <div class="assignment-list">
-                    <div class="assignment-item">
-                        <div>
-                            <span>Assignment 1</span>
-                            <p>Description of assignment 1.</p>
-                            <time>Due: 2024-08-20</time>
-                        </div>
-                        <div class="assignment-actions">
-                            <button>Edit</button>
-                            <button>Complete</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="e">
-        <h1>Congratulations!</h1>
-    </div>
-    <script>
-        document.addEventListener('DOMContentLoaded',function(){document.querySelectorAll('.nav-item a').forEach(function(a){a.addEventListener('click',function(e){e.preventDefault();document.querySelectorAll('.nav-item a').forEach(function(a){a.classList.remove('active')});this.classList.add('active')})});let balloons=[],balloonCount=20;function createBalloon(){let b=document.createElement('div');b.className='f';b.style.left=Math.random()*100+'%';b.style.animationDuration=2+Math.random()*3+'s';document.querySelector('.e').appendChild(b);balloons.push(b)}function animateBalloons(){balloons.forEach(b=>{b.style.top='100%'});setTimeout(()=>{balloons.forEach(b=>{b.remove()});balloons=[]},5000)}function startCelebration(){document.querySelector('.e').classList.add('active');for(let i=0;i<balloonCount;i++)createBalloon();animateBalloons()}startCelebration()});
-    </script>
-</body>
-</html>
+        
+        body {margin: 0;padding: 0;background: #0d1b2a;color: #fff;font-family: 'Roboto', sans-serif;display: flex;justify-content: center;align-items: center;height: 100vh;overflow: hidden;position: relative;}
+        .dashboard-container {display: flex;width: 95%;max-width: 1400px;height: 90%;border-radius: 20px;background: linear-gradient(145deg, #1b263b, #0a1524);box-shadow: 10px 10px 30px rgba(0,0,0,.6), -10px -10px 30px rgba(255,255,255,.05);overflow: hidden;position: relative;animation: fadeIn 1s ease-in-out;}
+        .background-lines {position: absolute;top: 0;left: 0;width: 100%;height: 100%;z-index: 1;background: repeating-linear-gradient(45deg,transparent,transparent 10px,rgba(100,61,136,.2) 10px,rgba(100,61,136,.2) 20px);pointer-events: none;opacity: 0.7;animation: moveBackground 5s linear infinite;}
+        .sidebar {width: 280px;background: #0d1b2a;border-right: 2px solid #1b263b;display: flex;flex-direction: column;align-items: center;padding: 30px 20px;box-shadow: 10px 0 30px rgba(0,0,0,.6);overflow-y: auto;z-index: 2;animation: slideIn 0.5s ease-in-out;}
+        .sidebar h2 {font-size: 28px;color: #ff2e63;text-shadow: 0 0 10px rgba(255,46,99,.8);margin-bottom: 50px;}
+        .sidebar .nav-item {width: 100%;margin-bottom: 30px;}
+        .sidebar .nav-item a {text-decoration: none;color: #fff;font-size: 20px;font-weight: bold;padding: 15px 20px;border-radius: 15px;display: block;text-align: center;transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;box-shadow: 0 5px 15px rgba(0,0,0,.3);}
+        .sidebar .nav-item a:hover, .sidebar .nav-item a.active {background: #ff2e63;color: #fff;transform: scale(1.1);box-shadow: 0 5px 30px rgba(255,46,99,.5);}
+        .content-area {flex-grow: 1;padding: 40px;overflow-y: auto;display: flex;flex-direction: column;gap: 40px;background: #1b263b;border-radius: 20px;box-shadow: inset 0 0 30px rgba(0,0,0,.5);transition: all 0.3s ease;z-index: 2;animation: fadeIn 1.5s ease-in-out;}
+        .content-header {display: flex;justify-content: space-between;align-items: center;border-bottom: 2px solid #2e3b55;padding-bottom: 20px;}
+        .content-header h1 {font-size: 40px;font-weight: bold;color: #ff2e63;text-shadow: 0 0 10px #ff2e63, 0 0 20px #ff2e63;animation: glow 2s ease-in-out infinite;}
+        .content-header .user-info {display: flex;align-items: center;}
+        .user-info img {width: 50px;height: 50px;border-radius: 50%;margin-right: 20px;box-shadow: 0 0 10px rgba(0,0,0,.5);transform: scale(1);transition: transform 0.3s ease;}
+        .user-info img:hover {transform: scale(1.2);}
+        .user-info span {font-size: 22px;font-weight: bold;color: #e0e1dd;}
+        .content-section {background: #1b263b;padding: 40px;border-radius: 20px;box-shadow: 0 10px 40px rgba(0,0,0,.7), inset 0 0 20px rgba(255,46,99,.3);transition: all 0.3s ease;animation: fadeInUp 1s ease-in-out;}
+        .content-section h2 {font-size: 34px;margin-bottom: 20px;color: #ff2e63;text-shadow: 0 0 12px #ff2e63;}
+        .content-section p, .content-section ul {font-size: 20px;line-height: 1.7;margin-bottom: 20px;color: #e0e1dd;}
+        .content-section ul {padding-left: 20px;}
+        .content-section ul li {margin-bottom: 12px;}
+        .content-section label {display: block;margin-bottom: 12px;font-size: 20px;color: #e0e1dd;}
+        .content-section input[type="text"], .content-section textarea, .content-section select, .content-section input[type="date"], .content-section input[type="time"] {width: 100%;padding: 16px;margin-bottom: 20px;border: none;border-radius: 15px;background: #2e3b55;color: white;font-size: 20px;box-shadow: inset 0 0 10px rgba(0,0,0,.5);transition: all 0.3s ease;}
+        .content-section input[type="text"]:focus, .content-section textarea:focus, .content-section select:focus, .content-section input[type="date"]:focus, .content-section input[type="time"]:focus {background: #3a4a69;outline: none;box-shadow: 0 0 15px rgba(255,46,99,.5);}
+        .content-section button {padding: 16px 32px;background: #ff2e63;border: none;border-radius: 15px;cursor: pointer;color: white;font-weight: bold;font-size: 22px;transition: background 0.3s ease, box-shadow 0.3s ease;box-shadow: 0 10px 40px rgba(255,46,99,.3);}
+        .content-section button:hover {background: #d81b60;box-shadow: 0 10px 40px rgba(255,46,99,.5);}
+        .assignment-list {margin-top: 30px;}
+        .assignment-item {background: #2e3b55;padding: 24px;border-radius: 15px;margin-bottom: 20px;display: flex;flex-direction: column;justify-content: space-between;align-items: flex-start;box-shadow: 0 5px 20px rgba(0,0,0,.6);transition: transform 0.3s ease, box-shadow 0.3s ease;}
+        .assignment-item:hover {transform: scale(1.05);box-shadow: 0 5px 30px rgba(255,46,99,.6);}
+        .assignment-item div {width: 100%;}
+        .assignment-item span {font-size: 20px;color: #fff;margin-bottom: 10px;display: block;}
+        .assignment-item p {margin-top: 0;font-size: 18px;color: #ccc;margin-bottom: 20px;}
+        .assignment-item time {font-size: 16px;color: #bbb;}
+        .assignment-actions {display: flex;justify-content: flex-end;gap: 12px;}
+        .assignment-actions button {padding: 12px 18px;font-size: 18px;background: #3a4a69;color: white;border-radius: 12px;border: none;cursor: pointer;transition: background 0.3s ease, box-shadow 0.3s ease;}
+        .assignment-actions button:hover {background: #4b5b7d;box-shadow: 0 5
