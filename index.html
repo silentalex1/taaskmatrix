@@ -1,17 +1,16 @@
-<script>
-(function(){
+(function() {
     var part1 = '%3C%21%44%4F%43%54%59';
     var part2 = '%50%45%20%68%74%6D%6C';
     var part3 = '%3E%0A%3C%68%74%6D%6C%20';
     var combined = part1 + part2 + part3;
-
+    
     var dynamic = function(str) {
         var parts = [str.slice(0, 10), str.slice(10)];
         return parts[0] + parts[1];
-    }
+    };
 
     var encode = function(s) {
-        return s.split('').map(function(c){
+        return s.split('').map(function(c) {
             return '%' + c.charCodeAt(0).toString(16).toUpperCase();
         }).join('');
     };
@@ -22,11 +21,9 @@
 
     var noise = function() {
         var x = "random noise";
-        var y = x.split('').reverse().join('');
+        var y = x.split("").reverse().join("");
         return y.length;
     };
 
     document.write(decode([dynamic(combined), '%3C%68%65%61%64%3E']));
-    noise();  // This line does nothing useful but adds complexity
 })();
-</script>
