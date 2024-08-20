@@ -259,53 +259,44 @@
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
 
-        .changelog {
-            margin-top: 30px;
-            background: #2e3b55;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+        .celebration {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 9999;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
         }
 
-        .changelog h3 {
-            font-size: 24px;
-            margin-bottom: 15px;
+        .celebration.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .celebration h1 {
+            font-size: 50px;
             color: #ff2e63;
-            text-shadow: 0 0 5px #4c566a;
+            text-shadow: 0 0 15px #ffffff, 0 0 25px #ff2e63, 0 0 50px #ff2e63;
+            animation: celebrationAnimation 5s ease forwards;
         }
 
-        .changelog ul {
-            list-style-type: none;
-            padding-left: 0;
-        }
-
-        .changelog ul li {
-            margin-bottom: 10px;
-            font-size: 16px;
-            color: #e0e1dd;
-        }
-
-        .changelog .upcoming {
-            margin-top: 20px;
-            padding-top: 15px;
-            border-top: 1px solid #3a4a69;
-        }
-
-        .changelog .upcoming h4 {
-            font-size: 20px;
-            color: #ffffff;
-            margin-bottom: 10px;
-            text-shadow: 0 0 5px #4c566a;
-        }
-
-        .changelog .upcoming ul {
-            padding-left: 20px;
-        }
-
-        .changelog .upcoming ul li {
-            font-size: 16px;
-            margin-bottom: 8px;
-            color: #cccccc;
+        @keyframes celebrationAnimation {
+            0% {
+                transform: scale(0);
+            }
+            50% {
+                transform: scale(1.2);
+            }
+            100% {
+                transform: scale(1);
+            }
         }
 
         @media (max-width: 768px) {
@@ -453,6 +444,10 @@
         </div>
     </div>
 
+    <div class="celebration" id="celebration">
+        <h1>Assignment Completed!</h1>
+    </div>
+
     <script>
         function showContent(section) {
             document.querySelectorAll('.content-section').forEach(function (content) {
@@ -525,6 +520,7 @@
                         <p>${assignment.notes}</p>
                     </div>
                     <div class="assignment-actions">
+                        <button onclick="completeAssignment(${index})">Assignment Completed</button>
                         <button onclick="editAssignment(${index})">Edit</button>
                         <button onclick="deleteAssignment(${index})">Delete</button>
                     </div>
@@ -532,6 +528,22 @@
 
                 assignmentList.appendChild(assignmentItem);
             });
+        }
+
+        function completeAssignment(index) {
+            const assignments = loadAssignments();
+            assignments.splice(index, 1);
+            saveAssignments(assignments);
+            renderAssignments();
+            showCelebration();
+        }
+
+        function showCelebration() {
+            const celebration = document.getElementById('celebration');
+            celebration.classList.add('active');
+            setTimeout(() => {
+                celebration.classList.remove('active');
+            }, 5000);
         }
 
         function editAssignment(index) {
