@@ -284,7 +284,17 @@
             font-size: 50px;
             color: #ff2e63;
             text-shadow: 0 0 15px #ffffff, 0 0 25px #ff2e63, 0 0 50px #ff2e63;
-            animation: celebrationAnimation 5s ease forwards;
+            animation: celebrationAnimation 1s ease forwards;
+        }
+
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 20px;
+            background-color: #ff2e63;
+            opacity: 0;
+            transform-origin: left top;
+            animation: confettiFall 5s ease forwards, confettiRotate 1.5s infinite linear;
         }
 
         @keyframes celebrationAnimation {
@@ -296,6 +306,26 @@
             }
             100% {
                 transform: scale(1);
+            }
+        }
+
+        @keyframes confettiFall {
+            0% {
+                top: -10%;
+                opacity: 1;
+            }
+            100% {
+                top: 110%;
+                opacity: 0;
+            }
+        }
+
+        @keyframes confettiRotate {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
             }
         }
 
@@ -541,9 +571,26 @@
         function showCelebration() {
             const celebration = document.getElementById('celebration');
             celebration.classList.add('active');
+            createConfetti();
             setTimeout(() => {
                 celebration.classList.remove('active');
+                removeConfetti();
             }, 5000);
+        }
+
+        function createConfetti() {
+            const celebration = document.getElementById('celebration');
+            for (let i = 0; i < 100; i++) {
+                const confetti = document.createElement('div');
+                confetti.classList.add('confetti');
+                confetti.style.left = Math.random() * 100 + '%';
+                confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+                celebration.appendChild(confetti);
+            }
+        }
+
+        function removeConfetti() {
+            document.querySelectorAll('.confetti').forEach(confetti => confetti.remove());
         }
 
         function editAssignment(index) {
